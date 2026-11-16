@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B4A4F">
+<title>طلابي — بوابة المعلم</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/style.css">
+<link rel="stylesheet" href="../../assets/css/pages.css">
+<link rel="stylesheet" href="../../assets/css/market.css">
+</head>
+<body data-role="teacher" data-page="students">
+<div id="page">
+<style>
+.cin{width:100%;border:1px solid var(--line);background:var(--mint);color:var(--ink);border-radius:14px;padding:12px 14px;font:inherit;outline:0}
+.cin:focus{border-color:var(--pine-2)}
+.srow{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px dashed var(--line)}
+.srow:last-child{border:0}
+.srow .av{width:46px;height:46px;flex:none;border-radius:50%;background:var(--pine);color:#fff;display:grid;place-items:center;font-family:var(--serif);font-size:21px}
+</style>
+<div class="ph"><h1 class="pt">طلابي</h1><p>الطلاب المسجلون على المنصة</p></div>
+<div class="panel" style="margin-top:16px">
+  <input class="cin" id="q" placeholder="ابحث باسم الطالب...">
+  <div id="list" style="margin-top:8px"></div>
+</div>
+</div>
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+  var d={};try{d=JSON.parse(localStorage.getItem('acad_db'))||{}}catch(e){}
+  var st=d.students||[];
+  function draw(){
+    var q=$('q').value.trim(),r=st.filter(function(s){return !q||s.name.indexOf(q)>-1});
+    $('list').innerHTML=r.length
+      ?r.map(function(s){return '<div class="srow"><div class="av">'+esc(s.name.trim().charAt(0))+'</div><b>'+esc(s.name)+'</b><span class="chip o" style="margin-inline-start:auto">مسجّل</span></div>'}).join('')
+      :'<p class="sub" style="padding:14px 0">'+(st.length?'لا توجد نتائج':'لا يوجد طلاب مسجلون بعد')+'</p>';
+  }
+  $('q').addEventListener('input',draw);draw();
+})();
+</script>
+<script src="../../assets/js/app.js"></script>
+<script src="../../assets/js/pages.js"></script>
+</body>
+</html>

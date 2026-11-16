@@ -112,8 +112,7 @@ function regTeacher(){
   var n=$('te-name').value.trim();
   if(n.length<2){$('te-err').textContent='اكتب اسمك من فضلك';return}
   AcadStore.addTeacher(n);
-  $('te-err').style.color='#0B4A4F';
-  $('te-err').textContent='تم إنشاء حسابك ✅ — لوحة المعلم هنبنيها في الخطوة الجاية';
+  location.href='pages/teacher/dashboard.html';
 }
 function resetAll(){
   if(confirm('هتتمسح كل الحسابات التجريبية. متأكد؟')){AcadStore.resetAll();location.reload()}

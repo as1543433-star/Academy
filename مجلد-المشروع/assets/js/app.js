@@ -49,9 +49,10 @@ student:{sub:'بوابة الطالب',user:'نور الهدى سعيد',init:'�
 ['courses','الكورسات','grad',1,0],['assignments','التكليفات','task',1,0],['quizzes','الاختبارات','exam',1,0],['progress','تقدّمي','chart',1,0],['achievements','الإنجازات','trophy',1,0],['community','المجتمع','share',1,0],
 ['wallet','المحفظة','card',1,0],['messages','الرسائل','chat',1,0],['notifications','الإشعارات','bell',1,0],['profile','الملف الشخصي','user',1,0]]},
 parent:{sub:'بوابة ولي الأمر',user:'أ. سعيد محمود',init:'س',nav:[
-['dashboard','الرئيسية','home',1,1],['children','أبنائي','users',1
-                                    ,1],['reports','التقارير','chart',0,1],['payments','المدفوعات','card',0,1],['messages','الرسائل','chat',1,0],['profile','الملف الشخصي','user',1,0]]}};
-var ROLE_LIST=[['student','طالب',1],['parent','ولي أمر',1],['teacher','معلم',0],['admin','مدير',0]];
+['dashboard','الرئيسية','home',1,1],['children','أبنائي','users',1,1],['reports','التقارير','chart',1,1],['payments','المدفوعات','card',1,1],['messages','الرسائل','chat',1,0],['profile','الملف الشخصي','user',1,0]]},
+teacher:{sub:'بوابة المعلم',user:'د. معلم',init:'م',nav:[
+['dashboard','الرئيسية','home',1,1],['courses','كورساتي','grad',1,1],['students','طلابي','users',1,1],['live','البث المباشر','live',1,1],['messages','الرسائل','chat',1,0],['profile','الملف الشخصي','user',1,0]]}};
+var ROLE_LIST=[['student','طالب',1],['parent','ولي أمر',1],['teacher','معلم',1],['admin','مدير',0]];
 var role=B.dataset.role||'student',cur=B.dataset.page,C=ROLES[role];
 try{var _m=JSON.parse(localStorage.getItem('acad_me')),_d=JSON.parse(localStorage.getItem('acad_db'));
 if(_m&&_m.role===role&&_d){var _l=_d[role+'s']||[];for(var _i=0;_i<_l.length;_i++)if(_l[_i].id===_m.id){C.user=_l[_i].name;C.init=_l[_i].name.trim().charAt(0);break}}}catch(e){}
@@ -86,6 +87,7 @@ var PAT=[[/^(قاعة|معمل) (\d+)$/,function(a,n){return(a==='قاعة'?'Hal
 [/^(\d+) ج\.م$/,function(a){return a+' EGP'}],[/^(\d+) ر\.س$/,function(a){return a+' SAR'}],[/^(\d+:\d+) بتوقيت القاهرة$/,function(a){return a+' Cairo time'}],[/^(\d+:\d+) بتوقيت الرياض$/,function(a){return a+' Riyadh time'}],[/^(\d+) دقيقة$/,function(a){return a+' min'}],[/^الدرس (\d+) من (\d+)$/,function(a,b){return 'Lesson '+a+' of '+b}],[/^عدد الدروس: (\d+)$/,function(a){return 'Lessons: '+a}],[/^(\d+) طلاب$/,function(a){return a+' students'}],
 [/^أهلاً بك يا (.+)$/,function(a){return 'Welcome, '+(EN[a]||a)}]];
 function norm(s){return s.replace(/[\u064B-\u0652]/g,'')}
+EN['بوابة المعلم']='Teacher Portal';EN['كورساتي']='My courses';EN['طلابي']='My students';
 var ENN={};Object.keys(EN).forEach(function(k){ENN[norm(k).trim()]=EN[k]});
 function tr(s){var m=s.match(/^(\s*)([\s\S]*?)(\s*)$/),k=norm(m[2]),r=ENN[k];
   if(r===undefined&&window.I18N){var M=I18N.__n;if(!M){M={};Object.keys(I18N).forEach(function(q){M[norm(q).trim()]=I18N[q]});Object.defineProperty(I18N,'__n',{value:M})}r=M[k]}

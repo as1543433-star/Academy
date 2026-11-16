@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B4A4F">
+<title>كورساتي — بوابة المعلم</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/css/style.css">
+<link rel="stylesheet" href="../../assets/css/pages.css">
+<link rel="stylesheet" href="../../assets/css/market.css">
+</head>
+<body data-role="teacher" data-page="courses">
+<div id="page">
+<style>
+.cin{width:100%;border:1px solid var(--line);background:var(--mint);color:var(--ink);border-radius:14px;padding:12px 14px;font:inherit;outline:0;margin-bottom:10px}
+.cin:focus{border-color:var(--pine-2)}
+.cbtn{width:100%;padding:13px;border:0;border-radius:14px;background:var(--pine);color:#fff;font:inherit;font-size:15px;font-weight:600;cursor:pointer}
+.crow{display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px dashed var(--line)}
+.crow:last-child{border:0}.crow small{color:var(--muted)}
+.del{margin-inline-start:auto;border:1.5px solid #e7c4c1;color:#b3261e;background:transparent;border-radius:12px;padding:6px 12px;font:inherit;cursor:pointer}
+.msg{min-height:22px;margin-top:8px;color:#b3261e;font-size:14px}
+</style>
+<div class="ph"><h1 class="pt">كورساتي</h1><p>أضف كورساتك وأدرها</p></div>
+<div class="grid" style="margin-top:22px">
+<section><h2>الكورسات المنشورة</h2><div class="panel" id="list"></div></section>
+<section><h2>إضافة كورس جديد</h2><div class="panel">
+  <input class="cin" id="ct" placeholder="عنوان الكورس">
+  <input class="cin" id="cp" type="number" min="0" placeholder="السعر بالجنيه (0 = مجاني)">
+  <button class="cbtn" id="add">نشر الكورس</button>
+  <div class="msg" id="msg"></div>
+</div></section>
+</div>
+</div>
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)},K='acad_tcourses';
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+  var L;try{L=JSON.parse(localStorage.getItem(K))}catch(e){}
+  if(!Array.isArray(L)||L.length&&typeof L[0]!=='object')L=[{t:'مقدمة في علم التشريح',p:0},{t:'تشريح الطرف العلوي الكامل',p:450},{t:'تشريح الرأس والرقبة',p:350}];
+  function save(){try{localStorage.setItem(K,JSON.stringify(L))}catch(e){}}
+  function draw(){
+    $('list').innerHTML=L.length?L.map(function(c,i){return '<div class="crow"><div><b>'+esc(c.t)+'</b><br><small>'+(c.p>0?esc(c.p)+' ج.م':'مجاني')+'</small></div><button class="del" data-i="'+i+'">حذف</button></div>'}).join(''):'<p class="sub">لم تضف أي كورس بعد</p>';
+    if(window.__shell)__shell.walk();
+  }
+  $('list').addEventListener('click',function(e){var b=e.target.closest('.del');if(b){L.splice(+b.dataset.i,1);save();draw()}});
+  $('add').addEventListener('click',function(){
+    var t=$('ct').value.trim(),p=+$('cp').value||0;
+    if(t.length<3){$('msg').textContent='اكتب عنوان الكورس (3 حروف على الأقل)';return}
+    $('msg').textContent='';L.push({t:t,p:p});save();$('ct').value='';$('cp').value='';draw();
+  });
+  save();draw();
+})();
+</script>
+<script src="../../assets/js/app.js"></script>
+<script src="../../assets/js/pages.js"></script>
+</body>
+</html>
